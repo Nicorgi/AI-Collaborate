@@ -46,9 +46,15 @@ class LLMClient:
             if "choices" not in data or not data["choices"]:
                 raise RuntimeError("API返回空响应")
 
-            content = data["choices"][0]["message"]["content"].split("\n")[-1]
-            if content is None:
+            raw_content = data["choices"][0]["message"]["content"]
+            if raw_content is None:
                 raise RuntimeError("API返回空内容")
+
+            # 提取</think>之后的多行内容
+            if "</think>" in raw_content:
+                content = raw_content.split("</think>")[-1].strip()
+            else:
+                content = raw_content.strip()
 
             return content
 
