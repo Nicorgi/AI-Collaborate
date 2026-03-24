@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+from docx import Document
 from llm_client import LLMClient
 from processor import Processor
 
@@ -59,6 +60,21 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def read_docx(file_path: Path) -> str:
+    """
+    读取 docx 文件内容
+
+    Args:
+        file_path: docx 文件路径
+
+    Returns:
+        文件中的文本内容（按段落合并）
+    """
+    doc = Document(file_path)
+    paragraphs = [para.text for para in doc.paragraphs if para.text.strip()]
+    return "\n".join(paragraphs)
+
+
 def read_input(input_path: str) -> tuple[str, Optional[Path]]:
     """
     读取输入内容
@@ -77,7 +93,12 @@ def read_input(input_path: str) -> tuple[str, Optional[Path]]:
             raise FileNotFoundError(f"输入文件不存在: {path}")
         if not path.is_file():
             raise ValueError(f"输入路径不是文件: {path}")
-        return path.read_text(encoding="utf-8"), path
+
+        # 根据文件扩展名选择读取方式
+        if path.suffix.lower() == ".docx":
+            return read_docx(path), path
+        else:
+            return path.read_text(encoding="utf-8"), path
 
 
 def get_output_paths(
