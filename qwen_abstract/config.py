@@ -1,7 +1,7 @@
 """配置管理模块"""
 
 API_BASE_URL = "http://200.x.xxx.xxx:8743/v1"
-MODEL_NAME = "qwen3-30n-a3b"
+MODEL_NAME = "qwen3-30b-a3b"
 DEFAULT_TEMPERATURE = 0.0
 DEFAULT_MAX_TOKENS = 2048
 DEFAULT_TOP_P = 1.0
