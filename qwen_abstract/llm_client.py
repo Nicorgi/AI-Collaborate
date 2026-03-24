@@ -30,7 +30,7 @@ class LLMClient:
             "model": self.model_name,
             "messages": [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt + "/no_think"}
             ],
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
@@ -46,7 +46,7 @@ class LLMClient:
             if "choices" not in data or not data["choices"]:
                 raise RuntimeError("API返回空响应")
 
-            content = data["choices"][0]["message"]["content"]
+            content = data["choices"][0]["message"]["content"].split("\n")[-1]
             if content is None:
                 raise RuntimeError("API返回空内容")
 
