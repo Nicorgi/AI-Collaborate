@@ -1,0 +1,7 @@
+"""配置管理模块"""
+
+API_BASE_URL = "http://localhost:8000/v1"
+MODEL_NAME = "qwen3-30b"
+DEFAULT_TEMPERATURE = 0.0
+DEFAULT_MAX_TOKENS = 2048
+DEFAULT_TOP_P = 1.0

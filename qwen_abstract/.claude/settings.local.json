@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import config; print\\(config.API_BASE_URL\\)\")",
+      "Bash(pip install:*)",
+      "Bash(python -c \"from llm_client import LLMClient; print\\(''OK''\\)\")",
+      "Bash(python -c \"from rag import get_rag_result; print\\(get_rag_result\\(\\)\\)\")",
+      "Bash(python -c \"from rag import get_rag_result; result = get_rag_result\\(\\); print\\(repr\\(result\\)\\)\")",
+      "Bash(python -c \"from rag import get_rag_result; result = get_rag_result\\(\\); open\\(''test_output.txt'', ''w'', encoding=''utf-8''\\).write\\(result\\); print\\(''Output written to file''\\)\")",
+      "Bash(python -c \"from processor import Processor; print\\(''OK''\\)\")",
+      "Bash(python main.py --help)",
+      "Bash(python main.py test_input.txt -v)",
+      "Bash(python -c \"from config import *; from llm_client import LLMClient; from rag import get_rag_result; from processor import Processor; print\\(''All modules import OK''\\)\")",
+      "Bash(ping:*)",
+      "Bash(git config:*)"
+    ]
+  }
+}
