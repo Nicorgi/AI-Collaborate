@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 from docx import Document
+import config
 from llm_client import LLMClient
 from processor import Processor
 
@@ -55,6 +56,20 @@ def parse_args() -> argparse.Namespace:
         type=float,
         default=None,
         help="Top-p 采样参数（默认使用配置值）"
+    )
+
+    parser.add_argument(
+        "--chunk-size",
+        type=int,
+        default=None,
+        help="长文本分块大小（按字符数，默认使用配置值）"
+    )
+
+    parser.add_argument(
+        "--chunk-overlap",
+        type=int,
+        default=None,
+        help="分块重叠字符数（默认使用配置值）"
     )
 
     return parser.parse_args()
@@ -172,7 +187,16 @@ def main() -> int:
             return 1
 
         # 创建处理器
-        processor = Processor(llm_client, verbose=args.verbose)
+        processor = Processor(
+            llm_client,
+            verbose=args.verbose,
+            chunk_size=args.chunk_size if args.chunk_size is not None else config.DEFAULT_CHUNK_SIZE,
+            chunk_overlap=(
+                args.chunk_overlap
+                if args.chunk_overlap is not None
+                else config.DEFAULT_CHUNK_OVERLAP
+            )
+        )
 
         # 设置回调
         callback = verbose_callback if args.verbose else None
